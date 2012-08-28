@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.ebayopensource.turmeric.typelib</groupId>
+  <artifactId>TradeTypeLibrary</artifactId>
+  <version>1.0.1</version>
+  <name>TradeTypeLibrary</name>
+  <dependencies>
+    <dependency>
+      <groupId>com.sun.xml.bind</groupId>
+      <artifactId>jaxb-xjc</artifactId>
+      <version>2.1.2</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.ebayopensource.turmeric.maven</groupId>
+        <artifactId>turmeric-maven-plugin</artifactId>
+        <version>1.1.0</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>gen-typelibrary</goal>
+            </goals>
+            <configuration>
+            	<typelibNamespace>http://atlantis.st.ewi.tudelft.nl/tudelft/v1/types</typelibNamespace>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

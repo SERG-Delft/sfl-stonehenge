@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Copyright (c) 2006-2010 eBay Inc. All Rights Reserved.
+	Licensed under the Apache License, Version 2.0 (the "License"); 
+	you may not use this file except in compliance with the License. 
+	You may obtain a copy of the License at 
+	
+	http://www.apache.org/licenses/LICENSE-2.0
+	
+-->
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+	xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://atlantis.st.ewi.tudelft.nl/tudelft/v1/services"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" name="BusinessBasicService"
+	targetNamespace="http://atlantis.st.ewi.tudelft.nl/tudelft/v1/services">
+	<wsdl:types>
+		<xs:schema attributeFormDefault="unqualified"
+			elementFormDefault="qualified" targetNamespace="http://atlantis.st.ewi.tudelft.nl/tudelft/v1/services">
+
+			<xs:element name="login">
+				<xs:complexType>
+					<xs:sequence>
+
+						<xs:element name="in" type="xs:string"></xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="loginResponse" type="tns:LoginResponse">
+
+			</xs:element>
+			<xs:element name="loginRequest" type="tns:LoginRequest">
+
+			</xs:element>
+			<xs:element name="logout">
+            	<xs:complexType>
+            		<xs:sequence>
+            			<xs:element name="in" type="xs:string"></xs:element>
+            		</xs:sequence>
+            	</xs:complexType>
+            </xs:element>
+			<xs:element name="logoutResponse"
+				type="tns:LogoutResponse">
+
+			</xs:element>
+			<xs:element name="logoutRequest" type="tns:LogoutRequest"></xs:element>
+            
+            <xs:complexType name="LoginRequest">
+            	<xs:sequence>
+            		<xs:element name="userID" type="xs:string"></xs:element>
+            		<xs:element name="password" type="xs:string"></xs:element>
+            	</xs:sequence>
+            </xs:complexType>
+		
+            <xs:complexType name="LoginResponse">
+            	<xs:sequence>
+            		<xs:element name="account" type="tns:AccountData"></xs:element>
+            	</xs:sequence>
+            </xs:complexType>
+		
+            <xs:complexType name="LogoutRequest">
+            	<xs:sequence>
+            		<xs:element name="userID" type="xs:string"></xs:element>
+            	</xs:sequence>
+            </xs:complexType>
+		
+            <xs:complexType name="LogoutResponse"></xs:complexType>
+
+
+            <xs:element name="register">
+            	<xs:complexType>
+            		<xs:sequence>
+
+            			<xs:element name="in" type="xs:string"></xs:element>
+            		</xs:sequence>
+            	</xs:complexType>
+            </xs:element>
+            <xs:element name="registerResponse">
+            	<xs:complexType>
+            		<xs:sequence>
+
+            			<xs:element name="out" type="xs:string"></xs:element>
+            		</xs:sequence>
+            	</xs:complexType>
+            </xs:element>
+            <xs:element name="registerRequest"
+            	type="tns:registerRequest">
+            </xs:element>
+            
+            <xs:complexType name="registerRequest">
+            	<xs:sequence>
+            		<xs:element name="userID" type="xs:string"></xs:element>
+            		<xs:element name="password" type="xs:string"></xs:element>
+            		<xs:element name="fullname" type="xs:string"></xs:element>
+            		<xs:element name="address" type="xs:string"></xs:element>
+            		<xs:element name="email" type="xs:string"></xs:element>
+            		<xs:element name="creditcard" type="xs:string"></xs:element>
+            		<xs:element name="openBalance" type="xs:double"></xs:element>
+            		<xs:element name="currencyType" type="xs:string"></xs:element>
+            	</xs:sequence>
+            </xs:complexType>
+
+		
+		
+		<xs:complexType name="AccountData">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		<xs:appinfo><typeLibrarySource library="TradeTypeLibrary" namespace="http://atlantis.st.ewi.tudelft.nl/tudelft/v1/types"></typeLibrarySource></xs:appinfo></xs:annotation>
+		<xs:sequence>
+			<xs:element maxOccurs="1" minOccurs="1" name="profileID" type="xs:string"></xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="openBalance" type="xs:double"></xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="balance" type="xs:double"></xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="creationDate" type="xs:dateTime"></xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="lastLogin" type="xs:dateTime"></xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="logoutCount" type="xs:int"></xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="loginCount" type="xs:int"></xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="accountID" type="xs:int"></xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="currencyType" type="xs:string">
+			</xs:element>
+
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:simpleType name="AckValue">
+		<xs:annotation>
+			<xs:documentation>
+				Indicates whether the error is a severe error (causing the request to fail)
+				or an informational error (a warning) that should be communicated to the
+				user.
+			</xs:documentation>
+		<xs:appinfo><typeLibrarySource library="common-type-library" namespace="http://www.ebayopensource.org/turmeric/common/v1/types"></typeLibrarySource></xs:appinfo></xs:annotation>
+		<xs:restriction base="xs:string">
+	
+			<xs:enumeration value="Success">
+				<xs:annotation>
+					<xs:documentation>
+						The request was processed successfully, but something occurred that may
+						affect your application or the user.				
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Failure">
+				<xs:annotation>
+	
+					<xs:documentation>
+						The request that triggered the error was not processed successfully.
+						When a serious application-level error occurs, the error is returned
+						instead of the business data.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Warning">
+				<xs:annotation>
+					<xs:documentation>
+						The request that triggered the error was processed successfully but with some warnings.
+					</xs:documentation>
+	
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="PartialFailure">
+				<xs:annotation>
+					<xs:documentation>
+						The request that triggered the error was processed successfully but with some warnings.				</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+	
+		</xs:restriction>
+	</xs:simpleType><xs:complexType abstract="true" name="BaseRequest">
+		<xs:annotation>
+			<xs:documentation>
+				This is the base class for request container for all
+				service operations.
+			</xs:documentation>
+		<xs:appinfo><typeLibrarySource library="common-type-library" namespace="http://www.ebayopensource.org/turmeric/common/v1/types"></typeLibrarySource></xs:appinfo></xs:annotation>
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="extension" type="tns:ExtensionType"></xs:element>
+		</xs:sequence>
+	</xs:complexType><xs:complexType abstract="true" name="BaseResponse"> 
+		<xs:annotation>
+			<xs:documentation>
+				Base response container for all service operations.
+				Contains error information associated with the request.
+			</xs:documentation>
+		<xs:appinfo><typeLibrarySource library="common-type-library" namespace="http://www.ebayopensource.org/turmeric/common/v1/types"></typeLibrarySource></xs:appinfo></xs:annotation>
+
+		<xs:sequence>
+			<xs:element name="ack" type="tns:AckValue">
+				<xs:annotation>
+					<xs:documentation>
+
+					</xs:documentation>
+					<xs:appinfo>
+						<CallInfo>
+							<AllCalls></AllCalls>
+							<Returned>Always</Returned>
+
+						</CallInfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element minOccurs="0" name="errorMessage" type="tns:ErrorMessage">
+				<xs:annotation>
+					<xs:documentation>
+						Information for an error or warning that
+						occurred when eBay processed the request.
+					</xs:documentation>
+
+					<xs:appinfo>
+						<CallInfo>
+							<AllCalls></AllCalls>
+							<Returned>Conditionally</Returned>
+						</CallInfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+
+			<xs:element minOccurs="0" name="version" type="xs:string">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+					<xs:appinfo>
+						<CallInfo>
+							<AllCalls></AllCalls>
+							<Returned>Always</Returned>
+
+						</CallInfo>
+					</xs:appinfo>
+				</xs:annotation>
+
+			</xs:element>
+			<xs:element minOccurs="0" name="timestamp" type="xs:dateTime">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+
+					<xs:appinfo>
+						<CallInfo>
+							<AllCalls></AllCalls>
+							<Returned>Always</Returned>
+						</CallInfo>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="extension" type="tns:ExtensionType"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="ExtensionType">
+		<xs:annotation>
+			<xs:documentation>Documentation goes here</xs:documentation>
+			
+		<xs:appinfo><typeLibrarySource library="common-type-library" namespace="http://www.ebayopensource.org/turmeric/common/v1/types"></typeLibrarySource></xs:appinfo></xs:annotation>
+		<xs:sequence>
+			<xs:element name="id" type="xs:positiveInteger"></xs:element>
+			<xs:element name="version" type="xs:string"></xs:element>
+			<xs:element name="contentType" type="xs:string"></xs:element>
+			<xs:element name="value" type="xs:string"></xs:element>
+			<xs:any maxOccurs="unbounded" minOccurs="0" processContents="lax"></xs:any>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="CommonErrorData">
+		<xs:annotation>
+			<xs:documentation>Documentation goes here</xs:documentation>
+			
+		<xs:appinfo><typeLibrarySource library="common-type-library" namespace="http://www.ebayopensource.org/turmeric/common/v1/types"></typeLibrarySource></xs:appinfo></xs:annotation>
+	
+		<xs:complexContent>
+			<xs:extension base="tns:ErrorData">
+				<xs:sequence>
+					<xs:element name="errorName" type="xs:string"></xs:element>
+					<xs:element minOccurs="0" name="cause" type="xs:string"></xs:element>
+					<xs:element minOccurs="0" name="resolution" type="xs:string"></xs:element>
+					<xs:element minOccurs="0" name="errorGroups" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>Error group values are whitespace separated</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="organization" type="xs:string"></xs:element>
+		    			<xs:any maxOccurs="unbounded" minOccurs="0" processContents="lax"></xs:any>
+			    	</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType><xs:simpleType name="ErrorCategory">
+		<xs:annotation>
+			<xs:documentation>
+				Documentation goes here.
+			</xs:documentation>
+		<xs:appinfo><typeLibrarySource library="common-type-library" namespace="http://www.ebayopensource.org/turmeric/common/v1/types"></typeLibrarySource></xs:appinfo></xs:annotation>
+
+      <xs:restriction base="xs:token">
+        <xs:enumeration value="System"></xs:enumeration>
+        <xs:enumeration value="Application"></xs:enumeration>
+        <xs:enumeration value="Request"></xs:enumeration>
+      </xs:restriction>
+
+	</xs:simpleType><xs:complexType name="ErrorData">
+		<xs:annotation>
+			<xs:documentation>Documentation goes here</xs:documentation>
+			
+		<xs:appinfo><typeLibrarySource library="common-type-library" namespace="http://www.ebayopensource.org/turmeric/common/v1/types"></typeLibrarySource></xs:appinfo></xs:annotation>
+	
+	  <xs:sequence>
+        	<xs:element name="errorId" type="xs:long"></xs:element>
+		  	<xs:element name="domain" type="xs:string"></xs:element>
+			<xs:element minOccurs="0" name="subdomain" type="xs:string"></xs:element>
+			<xs:element name="severity" type="tns:ErrorSeverity"></xs:element>
+	  		<xs:element name="category" type="tns:ErrorCategory"></xs:element>
+	  		<xs:element name="message" type="xs:string"></xs:element>
+	  		<xs:element minOccurs="0" name="exceptionId" type="xs:token"></xs:element>
+	  		<xs:element maxOccurs="unbounded" minOccurs="0" name="parameter" type="tns:ErrorParameter"></xs:element>
+		</xs:sequence>
+	
+	
+	</xs:complexType><xs:complexType name="ErrorMessage">
+		<xs:annotation>
+			<xs:documentation>Documentation goes here</xs:documentation>
+			
+		<xs:appinfo><typeLibrarySource library="common-type-library" namespace="http://www.ebayopensource.org/turmeric/common/v1/types"></typeLibrarySource></xs:appinfo></xs:annotation>
+		
+		<!-- 
+		<xs:sequence>
+			<xs:any maxOccurs="unbounded" minOccurs="0"
+				processContents="lax" />
+		</xs:sequence>
+		-->
+		
+    	<xs:sequence>
+    		<xs:element maxOccurs="unbounded" minOccurs="0" name="error" type="tns:CommonErrorData">
+    		</xs:element>
+    	</xs:sequence>
+		
+	</xs:complexType><xs:complexType name="ErrorParameter">
+		<xs:annotation>
+			<xs:documentation>Documentation goes here</xs:documentation>
+			
+		<xs:appinfo><typeLibrarySource library="common-type-library" namespace="http://www.ebayopensource.org/turmeric/common/v1/types"></typeLibrarySource></xs:appinfo></xs:annotation>
+
+		<xs:simpleContent>
+		  <xs:extension base="xs:string">
+		    <xs:attribute name="name" type="xs:string" use="optional"></xs:attribute>
+		  </xs:extension>
+		</xs:simpleContent>
+	</xs:complexType><xs:simpleType name="ErrorSeverity">
+		<xs:annotation>
+			<xs:documentation>
+				Documentation goes here.
+			</xs:documentation>
+		<xs:appinfo><typeLibrarySource library="common-type-library" namespace="http://www.ebayopensource.org/turmeric/common/v1/types"></typeLibrarySource></xs:appinfo></xs:annotation>
+
+      <xs:restriction base="xs:token">
+        <xs:enumeration value="Error"></xs:enumeration>
+        <xs:enumeration value="Warning"></xs:enumeration>
+      </xs:restriction>
+
+	</xs:simpleType>
+	
+	</xs:schema>
+	</wsdl:types>
+
+	<wsdl:message name="loginRequest">
+		<wsdl:part name="parameters" element="tns:loginRequest"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="loginResponse">
+		<wsdl:part name="parameters" element="tns:loginResponse"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="logoutRequest">
+		<wsdl:part name="parameters" element="tns:logoutRequest"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="logoutResponse">
+		<wsdl:part name="parameters" element="tns:logoutResponse"></wsdl:part>
+	</wsdl:message>
+
+	<wsdl:message name="registerRequest">
+		<wsdl:part name="parameters" element="tns:registerRequest"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="registerResponse">
+		<wsdl:part name="parameters" element="tns:registerResponse"></wsdl:part>
+	</wsdl:message>
+
+	<wsdl:portType name="BusinessBasicServicePort">
+		<wsdl:operation name="login">
+			<wsdl:input message="tns:loginRequest"></wsdl:input>
+			<wsdl:output message="tns:loginResponse"></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="logout">
+			<wsdl:input message="tns:logoutRequest"></wsdl:input>
+			<wsdl:output message="tns:logoutResponse"></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="register">
+			<wsdl:input message="tns:registerRequest"></wsdl:input>
+			<wsdl:output message="tns:registerResponse"></wsdl:output>
+		</wsdl:operation>
+
+	</wsdl:portType>
+	<wsdl:binding name="BusinessBasicServiceHttpBinding"
+		type="tns:BusinessBasicServicePort">
+		<http:binding verb="GET" />
+		<wsdl:operation name="login">
+			<http:operation location="/login" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:content type="text/xml" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="logout">
+			<http:operation location="/logout" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:content type="text/xml" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="register">
+			<http:operation location="/register" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:content type="text/xml" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="BusinessBasicServiceSOAPBinding"
+		type="tns:BusinessBasicServicePort">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="login">
+			<soap:operation
+				soapAction="http://atlantis.st.ewi.tudelft.nl/tudelft/v1/services/login" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="logout">
+			<soap:operation
+				soapAction="http://atlantis.st.ewi.tudelft.nl/tudelft/v1/services/logout" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="register">
+			<soap:operation
+				soapAction="http://atlantis.st.ewi.tudelft.nl/tudelft/v1/services/register" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="BusinessBasicService">
+		<wsdl:documentation>
+			<version>1.0.0</version>
+		</wsdl:documentation>
+		<wsdl:port binding="tns:BusinessBasicServiceHttpBinding"
+			name="BusinessBasicServiceHttp">
+			<http:address
+				location="http://www.ebayopensource.org/turmeric/BusinessBasicService" />
+		</wsdl:port>
+		<wsdl:port binding="tns:BusinessBasicServiceSOAPBinding"
+			name="BusinessBasicServiceSOAP">
+			<soap:address
+				location="http://www.ebayopensource.org/turmeric/BusinessBasicService" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>
+
